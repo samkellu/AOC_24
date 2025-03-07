@@ -1,8 +1,9 @@
 CC = gcc
-CFLAGS = -g -Wall
+CFLAGS = -g -Werror
+INCL = ../lib/common.c
 
 build:
-	$(CC) solution.c -o solution $(CFLAGS)
+	$(CC) solution.c $(INCL) -o solution $(CFLAGS)
 
 clean:
 	rm solution

@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <stdlib.h>
 
 void merge_sort(int* arr, int start, int end)
 {
@@ -51,6 +52,29 @@ void merge_sort(int* arr, int start, int end)
     free(r_arr);
 }
 
+int* get_ints_from_file(const char* filename, int* n)
+{
+    FILE* fp = fopen(filename, "r");
+    if (!fp) return NULL;
+
+    int* ints = malloc(0);
+    int idx = 0;
+    n = 0;
+
+    printf("here\n");
+    while (!feof(fp))
+    {
+        ints = realloc(ints, sizeof(int) * (idx + 1));
+        fscanf(fp, "%d", ints + sizeof(int) * idx++);
+        fscanf(fp, "\n");
+        printf("heres %d %d\n", idx, ints[idx-1]);
+        *n++;
+    }
+
+    return ints;
+}
+
+
 void print_arr(int* arr, int n)
 {
     for (int i = 0; i < n; i++)
@@ -59,19 +83,19 @@ void print_arr(int* arr, int n)
     printf("\n");
 }
 
-int main()
-{
-    int arr[] = {
-        2, 7, 3, 2, 6, 8, 9, 12, 6, 4, 12, 22
-    };
+// int main()
+// {
+//     int arr[] = {
+//         2, 7, 3, 2, 6, 8, 9, 12, 6, 4, 12, 22
+//     };
 
-    int n = sizeof(arr) / sizeof(int);
+//     int n = sizeof(arr) / sizeof(int);
 
-    printf("%d\n", n);
-    print_arr(arr, n);
+//     printf("%d\n", n);
+//     print_arr(arr, n);
 
-    merge_sort(arr, 0, n - 1);
+//     merge_sort(arr, 0, n - 1);
 
-    print_arr(arr, n);
+//     print_arr(arr, n);
 
-}
+// }
