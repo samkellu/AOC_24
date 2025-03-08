@@ -1,6 +1,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+#pragma region sorting
+
 void merge_sort(int* arr, int start, int end)
 {
     if (start >= end)
@@ -43,6 +45,10 @@ void merge_sort(int* arr, int start, int end)
     free(r_arr);
 }
 
+#pragma endregion
+
+#pragma region searching
+
 int binary_search(int* arr, int start, int end, int search_val)
 {
     if (start == end)
@@ -55,6 +61,9 @@ int binary_search(int* arr, int start, int end, int search_val)
     return binary_search(arr, start, mid, search_val);
 }
 
+#pragma endregion
+
+#pragma region input_handling
 
 int* get_ints_from_file(const char* filename, int* n)
 {
@@ -77,6 +86,9 @@ int* get_ints_from_file(const char* filename, int* n)
     return ints;
 }
 
+#pragma endregion
+
+#pragma region display
 
 void print_arr(int* arr, int n)
 {
@@ -86,19 +98,4 @@ void print_arr(int* arr, int n)
     printf("\n");
 }
 
-// int main()
-// {
-//     int arr[] = {
-//         2, 7, 3, 2, 6, 8, 9, 12, 6, 4, 12, 22
-//     };
-
-//     int n = sizeof(arr) / sizeof(int);
-
-//     printf("%d\n", n);
-//     print_arr(arr, n);
-
-//     merge_sort(arr, 0, n - 1);
-
-//     print_arr(arr, n);
-
-// }
+#pragma endregion
