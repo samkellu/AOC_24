@@ -15,12 +15,6 @@ void merge_sort(int* arr, int start, int end)
     
     int* l_arr = malloc(sizeof(int) * l_n);
     int* r_arr = malloc(sizeof(int) * r_n);
-    if (!l_arr || !r_arr)
-    {
-        free(l_arr);
-        free(r_arr);
-        return;
-    }
     
     for (int q = 0; q < l_n; q++)
         l_arr[q] = arr[q + start];
@@ -33,13 +27,10 @@ void merge_sort(int* arr, int start, int end)
     while (l_idx < l_n && r_idx < r_n)
     {
         if (l_arr[l_idx] <= r_arr[r_idx])
-        {
             arr[start++] = l_arr[l_idx++];
-        }
+
         else
-        {
             arr[start++] = r_arr[r_idx++];
-        }
     }
 
     while (l_idx < l_n)
@@ -51,6 +42,19 @@ void merge_sort(int* arr, int start, int end)
     free(l_arr);
     free(r_arr);
 }
+
+int binary_search(int* arr, int start, int end, int search_val)
+{
+    if (start == end)
+        return arr[start] == search_val ? start : -1;
+
+    int mid = start + (end - start) / 2;
+    if (arr[mid] < search_val)
+        return binary_search(arr, mid + 1, end, search_val);
+        
+    return binary_search(arr, start, mid, search_val);
+}
+
 
 int* get_ints_from_file(const char* filename, int* n)
 {
