@@ -59,18 +59,17 @@ int* get_ints_from_file(const char* filename, int* n)
 
     int* ints = malloc(0);
     int idx = 0;
-    n = 0;
+    *n = 0;
 
-    printf("here\n");
-    while (!feof(fp))
+    char buf[64];
+    while (!feof(fp) && fgets(buf, 64, fp))
     {
         ints = realloc(ints, sizeof(int) * (idx + 1));
-        fscanf(fp, "%d", ints + sizeof(int) * idx++);
-        fscanf(fp, "\n");
-        printf("heres %d %d\n", idx, ints[idx-1]);
-        *n++;
+        ints[idx++] = atoi(buf);
     }
 
+    fclose(fp);
+    *n = idx;
     return ints;
 }
 
