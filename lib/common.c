@@ -1,5 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
+#include "common.h"
 
 #pragma region sorting
 
@@ -84,6 +86,36 @@ int* get_ints_from_file(const char* filename, int* n)
     fclose(fp);
     *n = idx;
     return ints;
+}
+
+struct int_list* get_int_mat_from_file(const char* filename, int* n)
+{
+    FILE* fp = fopen(filename, "r");
+    if (!fp) return NULL;
+
+    struct int_list* lists = malloc(0);
+    int idx = 0;
+    *n = 0;
+
+    char buf[256];
+    while (!feof(fp) && fgets(buf, 256, fp))
+    {
+        struct int_list cur_ls = { values: malloc(0), count: 0 };
+        char* token = strtok(buf, " ");
+        while (token != NULL)
+        {
+            cur_ls.values = realloc(cur_ls.values, sizeof(int) * (cur_ls.count + 1));
+            cur_ls.values[cur_ls.count++] = atoi(token);
+            token = strtok(NULL, " ");
+        }
+        
+        lists = realloc(lists, sizeof(struct int_list) * (idx + 1));
+        lists[idx++] = cur_ls;
+    }
+
+    fclose(fp);
+    *n = idx;
+    return lists;
 }
 
 #pragma endregion

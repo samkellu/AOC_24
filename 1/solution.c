@@ -15,9 +15,7 @@ int main()
     for (int i = 0; i < n1; i++)
         diff += l1[i] > l2[i] ? l1[i] - l2[i] : l2[i] - l1[i];
 
-        
     printf("Total difference: %d\n", diff);
-
     
     long similarity = 0;
     int* similarities = malloc(sizeof(int) * n1);
