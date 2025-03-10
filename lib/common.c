@@ -67,6 +67,28 @@ int binary_search(int* arr, int start, int end, int search_val)
 
 #pragma region input_handling
 
+char* get_str_input(const char* filename, int* n)
+{
+    FILE* fp = fopen(filename, "r");
+    if (!fp) return NULL;
+
+    char* str = malloc(0);
+    int offset = 0;
+
+    char buf[256];
+    while (!feof(fp))
+    {
+        int bytes = fread(buf, sizeof(char), 256, fp);
+        str = realloc(str, sizeof(char) * (offset + bytes));
+        memcpy(str + offset, buf, bytes);
+        offset += bytes;
+    }
+
+    fclose(fp);
+    *n = offset;
+    return str;
+}
+
 int* get_ints_from_file(const char* filename, int* n)
 {
     FILE* fp = fopen(filename, "r");
