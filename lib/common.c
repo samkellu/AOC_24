@@ -89,6 +89,52 @@ char* get_str_input(const char* filename, int* n)
     return str;
 }
 
+char** get_str_mat_input(const char* filename, int* n, int* m)
+{
+    FILE* fp = fopen(filename, "r");
+    if (!fp) return NULL;
+
+    char** mat = malloc(0);
+    *m = 0;
+    *n = 0;
+    
+    char buf[256];
+    while (!feof(fp))
+    {
+        char* str = malloc(0);
+        char c;
+        int buf_offset = 0;
+        int str_offset = 0;
+        while ((c = fgetc(fp)) != '\n')
+        {
+            buf[buf_offset++] = c;
+            if (buf_offset > 256)
+            {
+                str = realloc(str, (str_offset + buf_offset) * sizeof(char));
+                memcpy(str + str_offset, buf, buf_offset);
+                str_offset += buf_offset;
+                buf_offset = 0;
+            }
+        }
+        
+        str = realloc(str, (str_offset + buf_offset) * sizeof(char));
+        memcpy(str + str_offset, buf, buf_offset);
+        str_offset += buf_offset;
+        *n = str_offset;
+        
+        mat = realloc(mat, (*m + 1) * sizeof(char*));
+        mat[*m] = str;
+        *m = *m + 1;
+    }
+
+    fclose(fp);
+
+    printf("here\n");
+    fflush(stdout);
+    return mat;
+}
+
+
 int* get_ints_from_file(const char* filename, int* n)
 {
     FILE* fp = fopen(filename, "r");
