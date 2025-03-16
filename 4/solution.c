@@ -1,15 +1,11 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include <string.h>
 #include "../lib/common.h"
 
 int main()
 {
-    int n, m;
-    char** input = get_str_mat_input("input", &n, &m);
-    
-    printf("%d %d\n", n, m);
-    fflush(stdout);
+    int n = 140, m = 140;
+    char** input = get_str_mat_input("input", n, m + 1);
     int directions[8][2] = {
         // dx, dy
         {1, 0},
@@ -28,33 +24,30 @@ int main()
     {
         for (int y = 0; y < n; y++)
         {
-            printf("%d %d %d\r", valid, x, y);
-            fflush(stdout);
             if (input[x][y] != word[0]) 
                 continue;
-
+            
             for (int i = 0; i < 8; i++)
             {
-                int xe = x + directions[i][0] * sizeof(word);
-                int ye = y + directions[i][1] * sizeof(word);
-                if (xe < 0 || xe >= n || ye < 0 || ye >= m)
+                int xe = x + directions[i][0] * (sizeof(word) - 2);
+                int ye = y + directions[i][1] * (sizeof(word) - 2);
+                if (xe < 0 || xe >= m || ye < 0 || ye >= n)
                     continue;
 
-                for (int offset = 1; offset < sizeof(word); offset++)
+                for (int offset = 1; offset < sizeof(word) - 1; offset++)
                 {
                     if (input[x + directions[i][0] * offset][y + directions[i][1] * offset] != word[offset])
                         break;
 
-                    if (offset == sizeof(word) - 1)
-                    {
+                    if (offset == sizeof(word) - 2)
                         valid++;
-                    }
                 }
             }
         }
-
-        free(input[x]);
     }
+    
+    for (int i = 0; i < n; i++)
+        free(input[i]);
 
     free(input);
 
