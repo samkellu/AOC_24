@@ -101,7 +101,6 @@ char** get_str_mat_input(const char* filename, int n, int m)
         char* str = malloc(m * sizeof(char));
         fread(str, sizeof(char), m, fp);
         mat[i++] = str;      
-        printf("%s\n", str);  
     }
     
     fclose(fp);
